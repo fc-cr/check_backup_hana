@@ -1,9 +1,10 @@
 #/bin/sh
 
 #Check if hana db server
-if pgrep -x "hdbindexserver" > /dev/null
-then
-    DBIN="/usr/sap/codilog/hana/bin/backup/"
+#Détermination de la DB
+
+function hanadb() {
+DBIN="/usr/sap/codilog/hana/bin/backup/"
     DLOG="/usr/sap/codilog/hana/log/"
     DCONF="/usr/sap/codilog/hana/conf/"
     USERNAME=$(cat $DCONF/CONF | awk -F ':' '{print $1}')
@@ -32,7 +33,15 @@ then
         echo "CR = $_CR - Requête en erreur"
         exit 3
     fi
+}
+
+if pgrep -x "hdbindexserver" > /dev/null
+then
+    hanadb
+elif pgrep -x "vserver" > /dev/null 
+then
+    maxdb
 else
-    echo "Pas de server hana détecté"
+    echo "Pas de server de DB détecté"
     exit 2
 fi
