@@ -1,7 +1,7 @@
 #/bin/sh
 
 #Check if hana db server
-#Détermination de la DB
+#Détedrmination de la DB
 
 function hanadb() {
 DBIN="/usr/sap/codilog/hana/bin/backup/"
